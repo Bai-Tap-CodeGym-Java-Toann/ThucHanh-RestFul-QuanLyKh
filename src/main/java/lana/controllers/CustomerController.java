@@ -21,18 +21,18 @@ public class CustomerController {
     private CustomerService customerService;
 
     //-------------------Retrieve All Customers--------------------------------------------------------
-    @GetMapping(value = "/customers/", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/customers/", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Customer>> listAllCustomers() {
         List<Customer> customers = customerService.listAll();
         if (customers.isEmpty()) {
-            return new ResponseEntity<List<Customer>>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
+            return new ResponseEntity<List<Customer>>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<List<Customer>>(customers, HttpStatus.OK);
     }
 
     //-------------------Retrieve Single Customer--------------------------------------------------------
 
-    @RequestMapping(value = "/customers/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/customers/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Customer> getCustomer(@PathVariable("id") long id) {
         System.out.println("Fetching Customer with id " + id);
         Customer customer = customerService.findById(id);
@@ -45,7 +45,7 @@ public class CustomerController {
 
     //-------------------Create a Customer--------------------------------------------------------
 
-    @RequestMapping(value = "/customers/", method = RequestMethod.POST)
+    @PostMapping(path = "/customers/")
     public ResponseEntity<Void> createCustomer(@RequestBody Customer customer, UriComponentsBuilder ucBuilder) {
         System.out.println("Creating Customer " + customer.getLastName());
         customerService.save(customer);
@@ -56,7 +56,7 @@ public class CustomerController {
 
     //------------------- Update a Customer --------------------------------------------------------
 
-    @RequestMapping(value = "/customers/{id}", method = RequestMethod.PUT)
+    @PutMapping(path = "customers/{id}")
     public ResponseEntity<Customer> updateCustomer(@PathVariable("id") long id, @RequestBody Customer customer) {
         System.out.println("Updating Customer " + id);
 
@@ -77,7 +77,7 @@ public class CustomerController {
 
     //------------------- Delete a Customer --------------------------------------------------------
 
-    @RequestMapping(value = "/customers/{id}", method = RequestMethod.DELETE)
+    @DeleteMapping(path = "/customers/{id}")
     public ResponseEntity<Customer> deleteCustomer(@PathVariable("id") long id) {
         System.out.println("Fetching & Deleting Customer with id " + id);
 
